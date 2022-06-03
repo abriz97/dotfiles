@@ -1,0 +1,121 @@
+#!/bin/bash
+
+# The objective of this script is to prepare an editable
+# file containing to take notes on a paper.
+# As an input, I want to use the 'doi' 
+# I want to extract:
+# - First Author
+# - Year of Pubblication
+# - hyperlink to pdf
+# - Title and section names
+
+# if file exists locally, internal link, otherwise hyper
+hyperlink=$(readlink -e $1)||hyperlink=$1
+echo "setting $1 as the hyperlink"
+
+remove_curly_braces () {
+        tmp=${tmp//\{/}
+        tmp=${tmp//\}/}
+        echo $tmp
+}
+
+get_title () {
+        tmp=$(grep -io title.* "$file" | grep -Pi {.*})
+        tmp="$(remove_curly_braces)"
+        tmp="${tmp#title = }"
+        echo "# ${tmp%,}" >> "$file"
+}
+
+get_label () {
+        tmp=$(grep -io @article.* "$file")
+        tmp=${tmp#@article\{}
+        tmp=${tmp%,}
+        echo $tmp
+}
+
+# The following two functions are useless, but they were a good bash coding exercise
+get_year () {
+        tmp=$(grep -io year.* "$file" | grep -Pi {.*})
+        tmp="$(remove_curly_braces)"
+        tmp="${tmp//[!0-9]/}"
+        echo "# ${tmp%,}" >> "$file"
+}
+get_author () {
+        
+        tmp=$(grep -io author.* "$file" | grep -Pi {.*})
+        tmp="$(remove_curly_braces)"
+        tmp="${tmp#author = }"
+        tmp=${tmp%,} 
+
+        # now replace and with commas and iteratively get first author
+        tmp=${tmp// and /,}
+        tmp=${tmp// /_}
+        num=${#tmp}
+
+        # get the first FamilyName, and then remove it from the author list
+        authors=${tmp%%,*}
+        authors=${authors##*_}
+        tmp=${tmp#*,}
+
+        # if 2 authors, then get the second family name
+        if [ $num = "1" ]; then
+                tmp=${tmp%%,*}
+                tmp=${authors##*_}
+                authors="${authors}_${tmp}"
+                echo $authors
+                return 0
+        fi
+        
+        # if 3 or more authors, then append 'et_al'
+        if [ $num -ge 2 ]; then
+                echo ${authors}_et_al
+                return 0
+        fi
+        
+        # else return only first
+        echo ${authors}
+        return 0
+
+}
+
+
+
+# -z means length of string is 0.
+[ -z "$1"  ] && echo "Give either a pdf file or a DOI as an argument" && exit
+
+# Let's start assuming the output is pdf
+# Would be nice to expand to use hyperlink instead 
+
+if [ -f "$1" ]
+then
+        # get bibtex
+        file="${1%.pdf}.md"
+        echo "<details>" > "$file"
+        echo "<summary>  bib-entry </summary>" >> "$file"
+        ~/.scripts/getbib "$1" >> "$file"
+        echo "</details>" >> "$file"
+
+        # get label
+        tmp="[$(get_label)]"
+        tmp="$tmp($hyperlink)"
+        echo $tmp >> "$file"
+        
+        # get title
+        tmp=$(get_title)
+
+        # Add some standard section names
+        echo "## Introduction" >> "$file"
+        echo "## Methods " >> "$file"
+        echo "## Results " >> "$file"
+        echo "## Discussion " >> "$file"
+fi
+
+
+# grep -io title.* | grep -Pi {.*}
+
+
+
+
+
+
+
