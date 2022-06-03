@@ -38,6 +38,20 @@ for filename in .config/* ; do
         fi
 done
 
+##########################
+# Copy .vim directory
+##########################
+
+if [ ! -d "$HOME/.vim" ] ;
+then
+        mkdir $HOME/.vim
+fi
+
+for filename in .vim/* ; do
+        if [ ! -f $filename ] || [ ! -z $OVERWRITE ] ; then
+               cp -r $filename $HOME/.vim
+        fi
+done
 
 ##########################
 # Copy remaining dotfiles 
