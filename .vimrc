@@ -11,6 +11,7 @@ Plug 'patstockwell/vim-monokai-tasty'
 Plug 'itchyny/lightline.vim'
 Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
 Plug 'eigenfoo/stan-vim'
+Plug 'terryma/vim-multiple-cursors'
 
 " Initialize plugin system
 call plug#end()
@@ -172,12 +173,51 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 " Filetype specific cmds. 
 "==========================
 
+
 " R Markdown
 autocmd BufNewFile,BufFilePre,BufRead *.rmd,*.Rmd set filetype=markdown
 autocmd Filetype markdown map <F5> :!echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>R<space>--vanilla<enter>
 
 autocmd Filetype markdown inoremap <silent><c-i>i **<left>
 autocmd Filetype markdown inoremap <silent><c-b> ****<left><left>
+
+" tex files
+""" START
+" Find next (<>)
+autocmd Filetype tex nnoremap <Space><Space> /(<>)<enter>ca(
+
+autocmd BufNewFile,BufFilePre,BufRead *.tex set filetype=tex
+autocmd Filetype tex map <F5> :! pdflatex <c-r>% <enter>
+autocmd Filetype tex map <F6> :! bibtex <c-r>%<BS><BS><BS>aux <enter> 
+
+"autocmd FileType tex nnoremap <C-p>":w<Enter>;!(setsid<Space>pdflatex<Space><C-R>%<Space>&><space>/dev/null&)<Enter><Enter>j)
+autocmd Filetype tex nnoremap <C-t> :w<Enter>:!bibtex<Space><C-R>%<BS><BS><BS><BS><Enter>
+autocmd Filetype tex nnoremap <C-o> :!<space>setsid<Space>zathura<Space><C-R>%<BS><BS><BS>pdf<Space>&><Space>/dev/null<Space>&<Enter><Enter>
+
+autocmd FileType tex inoremap ;fr \begin{frame}<Enter>\frametitle{}<Enter><Enter>(<>)<Enter><Enter>\end{frame}<Enter><Enter>(<>)<Esc>6kf}i.
+autocmd FileType tex inoremap ;fi \begin{fitch}<Enter><Enter>\end{fitch}<Enter><Enter>(<>)<Esc>3kA
+autocmd FileType tex inoremap ;exe \begin{exe}<Enter>\ex<Space><Enter>\end{exe}{Enter}{Enter}(<>)<Esc>3kA
+autocmd FileType tex inoremap ;em \emph{}<Space>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;bf \textbf{}<Space>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;it \textit{}<Space>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;c \cite{}<Space>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;p \citep{}<Space>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;ol \begin{enumerate}<Enter><Enter>\end{enumerate}<Enter><Enter>(<>)<Esc>3kA\item<Space>
+autocmd FileType tex inoremap ;ul \begin{itemize}<Enter><Enter>\end{itemize}<Enter><Enter>(<>)<Esc>3kA\item<Space>
+autocmd FileType tex inoremap ;r \ref{}<Space>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;t \begin{tabular}<Enter>(<>)<Enter>\end{tabular}<Enter><Enter>(<>)<Esc>4kA{}<Esc>i
+autocmd FileType tex inoremap ;tab \begin{tableau}<Enter>\inp{(<>)}<Tab>\const{(<>)}<Tab>(<>)<Enter>(<>)<Enter>\end{tableau}<Enter><Enter>(<>)<Esc>5kA{}<Esc>i
+autocmd FileType tex inoremap ;sec \section{}<Enter><Enter>(<>)<Esc>2kf}i
+autocmd FileType tex inoremap ;ssec \subsection{}<Enter><Enter>(<>)<Esc>2kf}i
+autocmd FileType tex inoremap ;sssec \subsubsection{}<Enter><Enter>(<>)<Esc>2kf}i
+autocmd FileType tex inoremap ;beg \begin{%DELRN%}<Enter>(<>)<Enter>\end{%DELRN%}<Enter><Enter>(<>)<Esc>4kfR:MultipleCursorsFind<Space>%DELRN%<Enter>c
+autocmd FileType tex inoremap ;up <Esc>/usepackage<Enter>o\usepackage{}<Esc>i
+autocmd FileType tex nnoremap ;up /usepackage<Enter>o\usepackage{}<Esc>i
+"""END
+
+
+
+
 
 "==========================
 " From YOUTUBE
