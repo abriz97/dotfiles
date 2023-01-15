@@ -35,107 +35,52 @@ local parse = require("luasnip.util.parser").parse_snippet
 -- 4.  restoreNode   r
 -- 5.  snippetNode   sn
 
-
 -- VS code like snippets
 require("luasnip.loaders.from_vscode").lazy_load()
 
 -- new line + tab
 local nlt = t({"", "\t"})
 
-rsnips = {
+-- Common long file paths
+allsnips = { s('DEEPANALYSES', t'/home/andrea/Documents/Box/ratmann_deepseq_analyses/live'),
+    s('DEEPANALYSES2', t'/home/andrea/HPC/project/ratmann_deepseq_analyses/live'),
+    s('XIAOYUE', t'/home/andrea/Documents/Box/ratmann_xiaoyue_jrssc2022_analyses/live'),
+    s('XIAOYUE2', t'/home/andrea/HPC/project/ratmann_xiaoyue_jrssc2022_analyses/live'),
+    s('DEEPDATA', t'/home/andrea/Documents/Box/ratmann_pangea_deepsequencedata'),
+    s('DEEPDATA2', t'/home/andrea/HPC/project/ratmann_pangea_deepsequencedata/live'),
+    s('SOFTWARE', t'/home/andrea/git/Phyloscanner.R.utilities/misc_data_analysis_RCCS1519/software'),
+    s('FLOWS', t'/home/andrea/git/phyloflows'),
+    s('SUBMISSION', t'/home/andrea/Documents/P1Brazil/submission/naturemed_v3'),
+    s('MARKING', t'/home/andrea/Documents/marking'),
+    s('EXTERNAL', t'/media/andrea/SSD/'),
+}
 
-    s('ggplot', 
-        fmt(
-            [[
-            ggplot({}, aes({})) +
-                {} +
-                facet_grid({}) +
-                theme({}) +
-                labs({})
-            ]]
-            ,{
-                i(1, 'data'),
-                i(2, 'aes'),
-                i(3, 'geom_something()'),
-                i(4, 'myGrid'),
-                i(5, 'myTheme'),
-                i(6, 'myLabs'),
-            }
-        )
-    ),
+luasnips = {
 
-    s('function',
-        fmt([[
-        function({})
-        {{
-            {}
-        }}
-        ]], {
-            i(1, 'args'),
-            i(2, '# TODO: write here')
-        }
-    )),
+    s(';s', { t"s(", i(1), t", {", i(2), t"})"  }),
+    s(';t', { t"t('", i(1), t"')" }),
+    s(';i', { t"i(", i(1), t")" }),
+    s(';c', { t"c(", i(1), t", {", i(2), t"})"  }),
+    s(';fmt', {t"fmt(", nlt, t"[[", nlt, i(1), nlt, t{"]]",",{"}, nlt, i(2), nlt, t"}", t")", })
+}
 
-    s('for', 
-        fmt([[
-        for ( {} in {} )
-        {{
-            {}
-        }}
-        ]], {
-            i(1, 'i'),
-            i(2, 'idx'),
-            i(3, '# TODO: write here')
-        }
-    )),
+stansnips = {
 
-    s('if', 
-        fmt([[
-        if ( {} )
-        {{
-            {}
-        }}
-        ]], {
-            i(1, 'cond'),
-            i(2, '# TODO: write here')
-        }
-    )),
-
-    s('if-else', 
-        fmt([[
-        if ( {} )
-        {{
-            {}
-        }}else{{
-            {}
-        }}
-        ]], {
-            i(1, 'cond'),
-            i(2, '# TODO: if code'),
-            i(3, '# TODO: else code')
-        }
-    )),
-
-    s('by', { t('by = '), i(1, 'bycols') }),
-
-    s('SD', { t('.SD = '), i(1, 'sdcols') }),
-
-    s('dt', 
-        fmt([[
-        {}[ {}, {}, by='{}' ]
-        ]], {
-            i(1, 'Name'),
-            i(2, 'cond'),
-            i(4, 'action'),
-            i(3, '')
-        }
-    )),
-
+    -- TODO: loops, functions, and maybe body! 
+-- autocmd  inoremap ;fun type<space>(<>)((<>))<space>{<return>}<Esc>k0w
+-- autocmd  inoremap ;for for<space>(X<space>in<space>(<>))<space>{<return>}<Esc>k0fXcl
+    s(';ii', { t("int "), i(1, 'i'), t(";")}),
+    s(';rr', { t("real "), i(1, 'r'), t(";")}),
+    s(';vv', { t("vector["), i(1, 'type'), t('] '), i(2,'v'), t(';') }),
+    s(';rv', { t("rowvector["), i(1,''), t("] "), i(2,'')}), 
+    s(';aa', { t("array[]"), i(1,'')}),
+    -- s(';m', t("matrix[", i(''), t(","), i(''), t("]"), i('')),
+    s(';ll', t("lower=")),
+    s(';uu', t("upper=")),
 }
 
 
 wikisnips = {
-
     s('=', 
         fmt([[
         = {} =
@@ -167,5 +112,9 @@ wikisnips = {
     ),
 }
 
+-- also think about the hidden = true options to remove the options from the cmp
+ls.add_snippets('lua', luasnips, { type = 'autosnippets', key = 'lua'})
+ls.add_snippets('r', rsnips, { type = 'autosnippets', key = 'r'})
+ls.add_snippets('stan', stansnips, { type = 'autosnippets', key = 'stan'})
 ls.add_snippets('vimwiki', wikisnips)
-ls.add_snippets('r', rsnips)
+ls.add_snippets('all', allsnips)

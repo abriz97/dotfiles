@@ -1,3 +1,9 @@
+local ok, cmp = pcall(require, "cmp")
+if not ok then
+    print("Failed to load cmp.lua")
+    return
+end
+
 -- useful links: https:
 -- //vonheikemen.github.io/devlog/tools/setup-nvim-lspconfig-plus-nvim-cmp/
 
@@ -6,6 +12,7 @@ vim.opt.completeopt= { 'menu' ,'menuone' , 'noselect' }
 -- Set up nvim-cmp.
 local cmp = require'cmp'
 local luasnip = require'luasnip'
+local lspkind = require('lspkind')
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -24,62 +31,78 @@ cmp.setup({
         documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({
-        -- Tab completion
-        ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-                luasnip.expand_or_jump()
-            elseif has_words_before() then
-                cmp.complete()
-            else
-                fallback()
-            end
-        end, { "i" , "s"}),
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            elseif luasnip.expand_or_jumpable(-1) then
-                luasnip.expand_or_jump(-1)
-            elseif has_words_before() then
-                cmp.complete()
-            else
-                fallback()
-            end
-        end, { "i" , "s"}),
+       
+        -- Tab completion: removed cause i prefer to use tab for snippets
+        -- ['<Tab>'] = cmp.mapping(function(fallback)
+        --     if cmp.visible() then
+        --         cmp.select_next_item()
+        --     elseif luasnip.expand_or_jumpable() then
+        --         luasnip.expand_or_jump()
+        --     elseif has_words_before() then
+        --         cmp.complete()
+        --     else
+        --         fallback()
+        --     end
+        -- end, { "i" , "s"}),
+        -- ['<S-Tab>'] = cmp.mapping(function(fallback)
+        --     if cmp.visible() then
+        --         cmp.select_prev_item()
+        --     elseif luasnip.expand_or_jumpable(-1) then
+        --         luasnip.expand_or_jump(-1)
+        --     elseif has_words_before() then
+        --         cmp.complete()
+        --     else
+        --         fallback()
+        --     end
+        -- end, { "i" , "s"}),
 
         -- other standard
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+
     }),
+
     -- where to take suggestions from 
     sources = cmp.config.sources({
         { name = 'nvim_lua', max_item_count = 3, priority = 5},
-        { name = 'luasnip', keyword_length = 1, priority = 4 }, 
-        { name = 'nvim_lsp', keyword_length = 0, priority = 3 },
+        { name = 'luasnip', keyword_length = 1, priority = 5 }, 
+        { name = 'cmp_nvim_r', max_item_count = 15, priority = 4},
+        { name = 'nvim_lsp', max_item_count = 4, priority = 3,
+            -- exclude 'Text' type entries
+            entry_filter = function(entry, ctx)
+                return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= 'Text'
+            end
+        },
         { name = 'path', keyword_length =2 , priority = 2 },
-        { name = 'buffer', keyword_length = 5, priority = 1},
+        { name = 'buffer', keyword_length = 4, priority = 1},
     }),
     -- specify appearence
     formatting = {
         fields = { 'menu', 'abbr', 'kind' },
-        format = function(entry, item)
-            local menu_icon = {
-                nvim_lsp = 'λ',
-                luasnip = '⋗',
-                buffer = 'Ω',
-                path = '/'
-            }
-            item.menu = menu_icon[entry.source.name]
-            return item
-        end,
+        format = lspkind.cmp_format({
+            mode = 'symbol', -- show only symbol annotations
+            maxwidth = 50,
+            elllipsis_char = '...',
+
+            before = function(entry, item)
+                local menu_icon = {
+                    nvim_lsp = 'λ',
+                    cmp_nvim_r = 'R',
+                    luasnip = '⋗',
+                    buffer = 'Ω',
+                    path = '',
+                }
+                item.menu = menu_icon[entry.source.name]
+                return item
+            end,
+        })
     },
 
     experimental = {
-        ghost_text =true,
+        ghost_text = true,
     },
 
 })

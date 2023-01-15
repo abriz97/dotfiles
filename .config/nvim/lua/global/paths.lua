@@ -1,13 +1,35 @@
-local group = vim.api.nvim_create_augroup("Filetypes", {clear=true})
-local ft_autocmd = function(pattern, cmd)
-    vim.api.nvim_create_autocmd(
-        {"BufRead", "BufNewFile", "BufFilePre"},{
-            pattern= pattern,
-            command = cmd,
-            group=group
-        } 
-)
-end
+-- Enable neovim runtime filetype.lua
+-- vim.g.do_filetype_lua = 0
 
-ft_autocmd("*stan", 'stan')
-ft_autocmd("*rmd,*Rmd", 'rmd')
+-- nvim sets filetype of simple *.tex files as 'plaintex'. Override
+vim.g.tex_flavor = 'tex'
+
+
+vim.filetype.add({
+    
+    filename = {
+
+        -- R markdown
+        ['.rmd'] = 'rmd',
+        ['.Rmd'] = 'rmd',
+        -- stan
+        ['.stan'] = 'stan',
+        -- latex
+        ['.tex'] = 'stan',
+
+    },
+
+    extension = {
+
+        -- R markdown
+        ['.rmd'] = 'rmd',
+        ['.Rmd'] = 'rmd',
+        -- stan
+        ['.stan'] = 'stan',
+        -- latex
+        ['.tex'] = 'stan',
+
+    },
+    -- extension = {},
+    -- pattern = {},
+})

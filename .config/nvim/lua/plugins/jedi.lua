@@ -1,3 +1,9 @@
+local ok, jedi = pcall(require, "jedi")
+if not ok then
+    print("Failed to load jedi.lua")
+    return
+end
+
 local gjedi = vim.g.jedi
 
 gjedi.environment_path="/home/andrea/miniconda3/bin/python3"

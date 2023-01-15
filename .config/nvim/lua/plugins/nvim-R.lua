@@ -1,3 +1,10 @@
+-- Not needed here?
+-- local ok, nvim_R = pcall(require, "nvim-R")
+-- if not ok then
+--     print("Failed to load nvim-R.lua")
+--     return
+-- end
+
 vim.cmd( [[
 " Nvim-R
 
@@ -7,7 +14,7 @@ let R_assign = 0
 " let g:rout_follow_colorscheme = 0 " R output is highlighted with current colorscheme
 " let g:Rout_more_colors = 1 " R commands in R output are highlighted
 let g:R_pdfviewer="zathura"
-let R_show_args = 1 " show the arguments for functions with autocompletion
+" let R_show_args = 1 " no longer exists
 let g:R_objbr_opendf = 0
 let g:R_objbr_openlist = 0
 

@@ -1,3 +1,9 @@
+local ok, nvim_tree = pcall(require, "nvim-tree")
+if not ok then
+    print("Failed to load nvim-tree.lua")
+    return
+end
+
 -- examples for your init.lua
 
 -- disable netrw at the very start of your init.lua (strongly advised)

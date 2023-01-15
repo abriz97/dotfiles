@@ -32,6 +32,7 @@ o.cursorline = true
 o.laststatus = 2
 o.showmode = false
 
+-- set clipboard=unnamedplus
 -- Better editing experience
 o.expandtab = true
 o.smarttab = true
@@ -69,7 +70,7 @@ o.history = 50
 
 -- Better buffer splitting
 o.splitright = true
-o.splitbelow = true
+o.splitbelow = false
 
 -- Preserve view while jumping
 -- BUG This option causes an error!

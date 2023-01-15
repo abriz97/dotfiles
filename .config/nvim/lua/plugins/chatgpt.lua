@@ -1,3 +1,9 @@
+local ok, chatgpt = pcall(require, "chatgpt")
+if not ok then
+    print("Failed to load chatgpt.lua")
+    return
+end
+
 local openai_api_key = "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"
 
 function OpenAI_Code_Completion()

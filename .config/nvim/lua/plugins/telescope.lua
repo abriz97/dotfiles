@@ -1,3 +1,9 @@
+local ok, telescope = pcall(require, "telescope")
+if not ok then
+    print("Failed to load telescope.lua")
+    return
+end
+
 -- You dont need to set any of these options. These are the default ones. Only
 -- the loading is important
 require('telescope').setup {

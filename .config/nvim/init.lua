@@ -10,15 +10,19 @@ require "plugins.treesitter" -- did this vanish?
 require "plugins.nvim-R"
 require "plugins.lightline"
 require "plugins.signify"
-require "plugins.luasnips"
+require "plugins.luasnip"
 
 require 'plugins.telescope'
 -- require "plugins.chatgpt" -- is this what's messing up with ,nn ? 
--- require "plugins.nvim-tree" -- requires nvim .8 or higher...
+require "plugins.nvim-tree" -- requires nvim .8 or higher...
 
 require "plugins.cmp-config"
 require "plugins.lsp-config"
-require "plugins.nvim-ghost"
+
+require "plugins.vimtex" --  atm got some bugs:
+-- Undefined variable: g:vimtex
+-- Only if I want to try editing on Overleaf through this connection
+-- require "plugins.nvim-ghost"
 
 -- snippets
 require "misc.luasnips-R"
@@ -35,3 +39,5 @@ vim.g.nightflyTransparent = true
 -- 4.XChatGPT as helper! 
 -- 5. it would be good to have a markdown previewer.
 -- 6. lets try and see whether vim-overleaf works.
+--
+-- 7. This looks beautiful:  https://castel.dev/post/lecture-notes-1/

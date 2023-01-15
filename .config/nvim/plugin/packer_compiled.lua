@@ -109,6 +109,11 @@ _G.packer_plugins = {
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/cmp-nvim-lua",
     url = "https://github.com/hrsh7th/cmp-nvim-lua"
   },
+  ["cmp-nvim-r"] = {
+    loaded = true,
+    path = "/home/andrea/.local/share/nvim/site/pack/packer/start/cmp-nvim-r",
+    url = "https://github.com/jalvesaq/cmp-nvim-r"
+  },
   ["cmp-path"] = {
     loaded = true,
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/cmp-path",
@@ -144,10 +149,10 @@ _G.packer_plugins = {
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/lightline.vim",
     url = "https://github.com/itchyny/lightline.vim"
   },
-  nerdtree = {
+  ["lspkind.nvim"] = {
     loaded = true,
-    path = "/home/andrea/.local/share/nvim/site/pack/packer/start/nerdtree",
-    url = "https://github.com/preservim/nerdtree"
+    path = "/home/andrea/.local/share/nvim/site/pack/packer/start/lspkind.nvim",
+    url = "https://github.com/onsails/lspkind.nvim"
   },
   ["nord-vim"] = {
     loaded = true,
@@ -163,11 +168,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
-  },
-  ["nvim-ghost.nvim"] = {
-    loaded = true,
-    path = "/home/andrea/.local/share/nvim/site/pack/packer/start/nvim-ghost.nvim",
-    url = "https://github.com/subnut/nvim-ghost.nvim"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
@@ -189,6 +189,11 @@ _G.packer_plugins = {
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
   },
+  ["nvim-web-devicons"] = {
+    loaded = true,
+    path = "/home/andrea/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
+    url = "https://github.com/nvim-tree/nvim-web-devicons"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/packer.nvim",
@@ -204,6 +209,11 @@ _G.packer_plugins = {
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/ripgrep",
     url = "https://github.com/BurntSushi/ripgrep"
   },
+  ["stan-vim"] = {
+    loaded = true,
+    path = "/home/andrea/.local/share/nvim/site/pack/packer/start/stan-vim",
+    url = "https://github.com/eigenfoo/stan-vim"
+  },
   ["telescope-fzf-native.nvim"] = {
     loaded = true,
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/telescope-fzf-native.nvim",
@@ -213,11 +223,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
-  },
-  ["vim-emoji-ab"] = {
-    loaded = true,
-    path = "/home/andrea/.local/share/nvim/site/pack/packer/start/vim-emoji-ab",
-    url = "https://github.com/GI/vim-emoji-ab"
   },
   ["vim-fugitive"] = {
     loaded = true,
@@ -243,6 +248,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/andrea/.local/share/nvim/site/pack/packer/start/vim-signify",
     url = "https://github.com/mhinz/vim-signify"
+  },
+  vimtex = {
+    loaded = true,
+    path = "/home/andrea/.local/share/nvim/site/pack/packer/start/vimtex",
+    url = "https://github.com/lervag/vimtex"
   },
   vimwiki = {
     loaded = true,

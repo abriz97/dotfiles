@@ -1,3 +1,9 @@
+local ok, tokyonight = pcall(require, "tokyonight")
+if not ok then
+    print("Failed to load tokyonight.lua")
+    return
+end
+
 -- Lua
 
 -- -- Default config

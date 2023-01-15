@@ -1,3 +1,9 @@
+local ok, nvim_ghost = pcall(require, "nvim-ghots")
+if not ok then
+    print("Failed to load nvim-ghots.lua")
+    return
+end
+
 -- vim.cmd( [[
 -- 
 -- " Autocommand for a single website (i.e. stackoverflow.com)

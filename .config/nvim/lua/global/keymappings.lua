@@ -24,10 +24,6 @@ keymap("v", "<", "<gv", opts)
 keymap("i", 'jk', '<esc>', opts)
 keymap("i", 'kj', '<esc>', opts)
 
--- Tab switch buffer
-keymap("i", 'jk', '<esc>', opts)
-keymap("i", 'kj', '<esc>', opts)
-
 -- Move selected piece of text in visual mode
 keymap("x", "K", ":move \'<-2<CR>gv-gv\'", opts)
 keymap("x", "J", ":move \'>+1<CR>gv-gv\'", opts)
@@ -35,6 +31,16 @@ keymap("x", "J", ":move \'>+1<CR>gv-gv\'", opts)
 -- alternative way to save
 keymap("n", "<C-s>", ":w<CR>", opts)
 keymap("i", "<C-s>", "<Esc>:w<CR>", opts)
+
+
+-- :terminal settings
+
+-- keymap("t", "<Esc>", "<C-\\><C-n>", opts) -- we might now want this as still want to use vi mode within.
+keymap("t", "<C-w>h", "<C-\\><C-n><C-w>h", opts)
+keymap("t", "<C-w>j", "<C-\\><C-n><C-w>j", opts)
+keymap("t", "<C-w>k", "<C-\\><C-n><C-w>k", opts)
+keymap("t", "<C-w>l", "<C-\\><C-n><C-w>l", opts)
+
 
 -- " Quoting mechs
 -- keymap("<leader>'", "c'<C-R>\"<esc>")
@@ -114,8 +120,6 @@ autocmd Filetype r inoremap <C-H> <Esc>F,a
 autocmd Filetype r inoremap <C-L> <Esc>f,a
 autocmd Filetype r,rmd nnoremap <leader>rscript :-1read $HOME/.vim/.skeleton.R<CR>
 autocmd FileType r inoremap <buffer> >> <Esc>:normal! a\|><CR>a<return>
-autocmd Filetype r inoremap ;ff function()
-autocmd Filetype r inoremap ;p0 paste0()<Left>
 autocmd Filetype r inoremap ;tt tmp<space><-
 autocmd Filetype r inoremap ;t0 tmp0<space><-
 autocmd Filetype r inoremap ;t1 tmp1<space><-
@@ -129,16 +133,6 @@ autocmd Filetype r inoremap ;[1 tmp1[]<Left>
 autocmd Filetype r inoremap ;[2 tmp2[]<Left>
 autocmd Filetype r inoremap ;[3 tmp3[]<Left>
 autocmd Filetype r inoremap ;[4 tmp4[]<Left>
-" data.table shortcuts
-autocmd Filetype r inoremap  ;sd [,<space>lapply(.SD,)<space>,<space>.SDcols=cols]<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-autocmd Filetype r inoremap  ;cc cols<space><-<space>c()<Left>
-autocmd Filetype r inoremap  ;gg grep()<Left>
-autocmd Filetype r inoremap  ;gv grep(, value=TRUE)<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-autocmd Filetype r inoremap  ;gp ggplot(, aes())<Esc>7<Left>
-autocmd Filetype r inoremap  ;uu unique()<Left>
-autocmd Filetype r inoremap  ;un uniqueN()<Left>
-autocmd Filetype r inoremap  ;fp file.path()<Left>
-autocmd Filetype r inoremap  ;lf list.files()<Left>
 
 " open up images
 autocmd Filetype r nnoremap  ;gt \oj0d2f<space>v$d:!<space>gthumb<space><C-r>"<enter>
@@ -184,12 +178,12 @@ autocmd Filetype rmd inoremap ;fh fig.height=
 autocmd Filetype markdown inoremap <silent><c-i>i **<left>
 autocmd Filetype markdown inoremap <silent><c-b> ****<left><left>
 "
+
+" Macros 
+
+" brackets around words within bracket
+let @c = "i'\<Esc>ea'\<Esc>f,w"
+let @q = 'F(w100@c'
+
 ]])
 
-------------
--- Macros --
-------------
-
--- " brackets around words within bracket
--- let @c = "i'\<Esc>ea'\<Esc>f,w"
--- let @q = 'F(w100@c'

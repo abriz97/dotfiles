@@ -1,10 +1,11 @@
 require('packer').startup(function(use)
     
+
     -- Package manager
-    use 'wbthomason/packer.nvim' 
+    use 'wbthomason/packer.nvim'
 
     -- File trees
-    use 'preservim/nerdtree'
+    use 'nvim-tree/nvim-web-devicons'
     use 'nvim-tree/nvim-tree.lua'
 
     -- Native LSP 
@@ -15,6 +16,8 @@ require('packer').startup(function(use)
     use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
+    use 'jalvesaq/cmp-nvim-r'
+    use 'onsails/lspkind.nvim'
     
     -- for luasnip users
     use 'L3MON4D3/LuaSnip'
@@ -23,6 +26,9 @@ require('packer').startup(function(use)
 
     -- Treesitter
     use 'nvim-treesitter/nvim-treesitter'
+    -- Treesitter doesn't highlight stan currently.
+    use 'eigenfoo/stan-vim'
+
 
     -- For telescope:
     use { "nvim-telescope/telescope.nvim", tag= '0.1.0' }
@@ -72,11 +78,15 @@ require('packer').startup(function(use)
 
     -- vim-emoji
     -- use 'junegunn/vim-emoji'
-    use "GI/vim-emoji-ab"
+    -- use "GI/vim-emoji-ab"
 
+    -- Latex 
+    use 'lervag/vimtex'
+    
     -- use nvim to edit overleaf files.
     -- use "user202729/vim-overleaf"
-    use 'subnut/nvim-ghost.nvim'
+    -- use 'subnut/nvim-ghost.nvim'
 
     -- Python Plugins
+
 end)

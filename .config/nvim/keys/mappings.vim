@@ -42,15 +42,6 @@ autocmd Filetype r inoremap ;[2 tmp2[]<Left>
 autocmd Filetype r inoremap ;[3 tmp3[]<Left>
 autocmd Filetype r inoremap ;[4 tmp4[]<Left>
 " data.table shortcuts
-autocmd Filetype r inoremap  ;sd [,<space>lapply(.SD,)<space>,<space>.SDcols=cols]<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-autocmd Filetype r inoremap  ;cc cols<space><-<space>c()<Left>
-autocmd Filetype r inoremap  ;gg grep()<Left>
-autocmd Filetype r inoremap  ;gv grep(, value=TRUE)<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-autocmd Filetype r inoremap  ;gp ggplot(, aes())<Esc>7<Left>
-autocmd Filetype r inoremap  ;uu unique()<Left>
-autocmd Filetype r inoremap  ;un uniqueN()<Left>
-autocmd Filetype r inoremap  ;fp file.path()<Left>
-autocmd Filetype r inoremap  ;lf list.files()<Left>
 
 " open up images
 autocmd Filetype r nnoremap  ;gt \oj0d2f<space>v$d:!<space>gthumb<space><C-r>"<enter>
@@ -58,19 +49,6 @@ autocmd Filetype r nnoremap  ;gt \oj0d2f<space>v$d:!<space>gthumb<space><C-r>"<e
 " Stan
 autocmd Filetype stan nnoremap <leader>stan :-1read $HOME/.vim/.skeleton.stan<CR>
 autocmd Filetype stan inoremap <silent><c-b> ****<left><left>
-
-autocmd Filetype stan inoremap <Space><Space> <Esc>/(<>)<return>ca(
-autocmd Filetype stan inoremap ;fun type<space>(<>)((<>))<space>{<return>}<Esc>k0w
-autocmd Filetype stan inoremap ;for for<space>(X<space>in<space>(<>))<space>{<return>}<Esc>k0fXcl
-autocmd Filetype stan inoremap ;i int;<Esc>i
-autocmd Filetype stan inoremap ;r real;<Esc>i
-autocmd Filetype stan inoremap ;v vector[(<>)]<space>(<>);<Esc>F[i
-autocmd Filetype stan inoremap ;rv rowvector[(<>)]<space>(<>);<Esc>F[i
-autocmd Filetype stan inoremap ;a array[]<space>(<>);<Esc>F[a
-autocmd Filetype stan inoremap ;m matrix[(<>),(<>)]<space>(<>);<Esc>F[i
-
-autocmd Filetype stan inoremap ;l lower=
-autocmd Filetype stan inoremap ;u upper=
 
 autocmd Filetype stan map <F5> :!echo<space>"cmdstanr::cmdstan_model('<c-r>%')"\|<space>R<space>--vanilla<enter>
 
