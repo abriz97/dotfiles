@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# written by chatGPT!
+# accepts a series of researchers names and outputs a csv containing their ORCID information.
+# names 
+
+names=$@
+rm orcid_ids.csv
+
+for researcher_name in $names
+do 
+
+    if [[ $researcher_name == *-* ]]
+    then
+        researcher_given_name=$(echo $researcher_name | cut -s -d '-' -f 1)
+        researcher_family_name=$(echo $researcher_name | cut -s -d '-' -f 2)
+        encoded_search_criteria="family-name:$researcher_family_name+AND+given-names:$researcher_given_name" 
+    else
+        researcher_given_name=""
+        researcher_family_name=$researcher_name
+
+        encoded_search_criteria="family-name:$researcher_family_name"
+    fi
+
+    echo "Given name: $researcher_given_name"
+    echo "Family name: $researcher_family_name"
+
+    echo "Searching for ORCID ID of $researcher_family_name..."
+
+    # Encode the search criteria as URL parameters
+    encoded_search_criteria=$(echo ${encoded_search_criteria} | tr ' ' '+' )
+
+    echo "Encoded search criteria: https://pub.orcid.org/v3.0/csv-search/?q=${encoded_search_criteria}"
+
+    curl -L -H "Accept: text/csv" "https://pub.orcid.org/v3.0/csv-search/?q=${encoded_search_criteria}" >> orcid_ids.csv
+
+done
+cat orcid_ids.csv
