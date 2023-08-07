@@ -5,7 +5,7 @@ local opt = vim.opt
 -- Map <leader> to comma
 g.mapleader = ","
 g.maplocalleader = ","
-vim.cmd[[ echo 'hello' ]]
+vim.cmd[[ echo 'Forza Roma' ]]
 
 -- cmd('syntax on')
 -- vim.api.nvim_command('filetype plugin indent on')
@@ -44,8 +44,8 @@ o.tabstop = 4
 o.shiftwidth = 4
 o.softtabstop = -1 -- If negative, shiftwidth value is used
 o.list = true
-o.listchars = "trail:·,nbsp:◇,extends:▸,precedes:◂"
--- o.listchars = 'eol:¬,space:·,lead: ,trail:·,nbsp:◇,tab:→-,extends:▸,precedes:◂,multispace:···⬝,leadmultispace:│   ,'
+-- o.listchars = "trail:·,nbsp:◇,extends:▸,precedes:◂"
+o.listchars = 'eol:↵,space:·,lead: ,trail:·,nbsp:◇,tab:│ ,extends:▸,precedes:◂,multispace:···⬝,leadmultispace:│   ,'
 opt.formatoptions='t'
 
 -- do not treat - as a special character
@@ -81,9 +81,20 @@ o.splitbelow = false
 -- o.lazyredraw = true
 
 -- Better folds (don't fold by default)
--- o.foldmethod = 'indent'
+o.foldmethod = 'indent'
 -- o.foldlevelstart = 99
 -- o.foldnestmax = 3
 -- o.foldminlines = 1
 --
+
+-- Disable folding on fugitive and alpha buffers
+vim.cmd([[
+    autocmd FileType fugitive setlocal nofoldenable
+    autocmd FileType alpha setlocal nofoldenable
+    autocmd FileType rdoc setlocal nofoldenable
+]])
+
 opt.mouse = "i"
+
+opt.cpoptions:append(">") -- append on new line
+opt.equalalways = true -- make windows the same width when closing one

@@ -29,6 +29,23 @@ end
 
 return nil,
     {
+        s(
+            "eq",
+            fmt(
+                [[
+            \begin{{equation}}
+              {}
+            \end{{equation}}
+
+            {}
+        ]],
+                {
+                    i(1, '(<>)'),
+                    i(2, '(<>)'),
+                }
+            ),
+            { condition = begins_line }
+        ),
         -- LaTeX: General environment
         s(
             "beg",

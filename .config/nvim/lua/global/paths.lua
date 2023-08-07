@@ -17,6 +17,8 @@ vim.filetype.add({
         -- latex
         ['.tex'] = 'stan',
 
+        ['.pbs'] = 'sh',
+
     },
 
     extension = {
@@ -28,6 +30,8 @@ vim.filetype.add({
         ['.stan'] = 'stan',
         -- latex
         ['.tex'] = 'stan',
+
+        ['.pbs'] = 'sh',
 
     },
     -- extension = {},

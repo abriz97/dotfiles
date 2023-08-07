@@ -20,6 +20,10 @@ keymap("n", "<C-l>", "<C-w>l", {silent=TRUE} )
 keymap("v", ">", ">gv", opts)
 keymap("v", "<", "<gv", opts)
 
+-- center after moving through instances of a search
+keymap("n", "n", "nzz", opts)
+keymap("n", "N", "Nzz", opts)
+
 -- avoid using esc
 keymap("i", 'jk', '<esc>', opts)
 keymap("i", 'kj', '<esc>', opts)
@@ -79,11 +83,23 @@ function CodeRunner ()
             name = "Code",
             r = {"<cmd>luafile %<cr>", "Run" },
         }
+
     elseif true then
         
         
     end
 end
+
+function openWithExternal()
+    local selected_text = vim.fn.getreg('"')
+    -- local file_path = vim.fn.expand('%:p:h') .. '/' .. selected_text
+    local command = 'zathura'
+    vim.fn.system(command .. ' ' .. vim.fn.shellescape(selected_text) )
+end
+
+-- keymap('v', '<leader>o', ":lua openWithExternal() <CR>", opts)
+
+
 
 -- 
 -- "
@@ -109,33 +125,24 @@ vim.api.nvim_create_autocmd( "FileType", {
 
 ]]
 
+-- g/^[[:blank:]]*debug()[[:blank:]]*$/d 
 
 vim.cmd([[
 "
-" look up png
-autocmd Filetype r nnoremap \wp df]igthumb<space><Esc>dd:!<C-R>"<return>
 
 " find commas left and right
 autocmd Filetype r inoremap <C-H> <Esc>F,a
 autocmd Filetype r inoremap <C-L> <Esc>f,a
+
+autocmd Filetype r map <F5> :!Rscript<space><c-r>%<enter>
 autocmd Filetype r,rmd nnoremap <leader>rscript :-1read $HOME/.vim/.skeleton.R<CR>
 autocmd FileType r inoremap <buffer> >> <Esc>:normal! a\|><CR>a<return>
-autocmd Filetype r inoremap ;tt tmp<space><-
-autocmd Filetype r inoremap ;t0 tmp0<space><-
-autocmd Filetype r inoremap ;t1 tmp1<space><-
-autocmd Filetype r inoremap ;t2 tmp2<space><-
-autocmd Filetype r inoremap ;t3 tmp3<space><-
-autocmd Filetype r inoremap ;t4 tmp4<space><-
-autocmd Filetype r inoremap ;t5 tmp5<space><-
-autocmd Filetype r inoremap ;[t tmp[]<Left>
-autocmd Filetype r inoremap ;[0 tmp0[]<Left>
-autocmd Filetype r inoremap ;[1 tmp1[]<Left>
-autocmd Filetype r inoremap ;[2 tmp2[]<Left>
-autocmd Filetype r inoremap ;[3 tmp3[]<Left>
-autocmd Filetype r inoremap ;[4 tmp4[]<Left>
 
-" open up images
-autocmd Filetype r nnoremap  ;gt \oj0d2f<space>v$d:!<space>gthumb<space><C-r>"<enter>
+" Perform tests in R package
+autocmd Filetype r map <F6> :!echo<space>"devtools::load_all(); devtools::test(stop_on_failure=TRUE)"\|<space>R<space>--vanilla<enter>
+
+autocmd Filetype r map <F9> :g!/^\[\[:blank:\]\]\*debug()\[\[:blank:\]\]\*$/d<CR>
+
 
 " Stan
 autocmd Filetype stan nnoremap <leader>stan :-1read $HOME/.vim/.skeleton.stan<CR>
@@ -156,27 +163,26 @@ autocmd Filetype stan inoremap ;u upper=
 
 autocmd Filetype stan map <F5> :!echo<space>"cmdstanr::cmdstan_model('<c-r>%')"\|<space>R<space>--vanilla<enter>
 
+" Format Stan file with stanc on key press and replace file contents
+nnoremap <F6> :silent %!stanc --print-canonical <c-r>% <CR>
+
+
 " R Markdown
 autocmd Filetype rmd nnoremap <leader>rmd :-1read $HOME/.vim/.skeleton.rmd<CR>
-
-autocmd Filetype rmd map <F5> :!echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>R<space>--vanilla<enter>
+autocmd Filetype rmd map <F5> :!echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>R<space>--vanilla<space><enter>
 autocmd Filetype rmd map <F4> :!chromium<space><c-r>%<space><delete><delete><delete><delete>html<enter>
-
-autocmd Filetype rmd inoremap ;i include=FALSE
-autocmd Filetype rmd inoremap ;h hidden=TRUE
-
-autocmd Filetype rmd inoremap ;ev eval=FALSE
-autocmd Filetype rmd inoremap ;ec echo=FALSE
-autocmd Filetype rmd inoremap ;w warning=FALSE
-autocmd Filetype rmd inoremap ;er error=TRUE
-autocmd Filetype rmd inoremap ;m message=FALSE
-autocmd Filetype rmd inoremap ;res results='markup\|asis\|hold\|hide'
-autocmd Filetype rmd inoremap ;fw fig.width=
-autocmd Filetype rmd inoremap ;fh fig.height=
 
 " Markdown
 autocmd Filetype markdown inoremap <silent><c-i>i **<left>
 autocmd Filetype markdown inoremap <silent><c-b> ****<left><left>
+
+" open up images
+" autocmd Filetype r nnoremap  ;gt \oj0d2f<space>v$d:!<space>gthumb<space><C-r>"<enter>
+" look up png
+" autocmd Filetype r nnoremap \wp df]igthumb<space><Esc>dd:!<C-R>"<return>
+" open pdf(p) and png (o)
+autocmd Filetype r xnoremap <leader>o y<Esc>:!gthumb<space><C-R>"<space>&<enter>
+autocmd Filetype r xnoremap <leader>p y<Esc>:!gthumb<space><C-R>"<space>&<enter>
 "
 
 " Macros 

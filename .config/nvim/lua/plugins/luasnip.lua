@@ -5,6 +5,7 @@ if not ok then
 end
 
 -- inspired by: https://github.com/L3MON4D3/LuaSnip/blob/master/Examples/snippets.lua#L190
+-- other source to read: https://www.ejmastnak.com/tutorials/vim-latex/luasnip/
 local ls = require("luasnip")
 --
 -- some shorthands...
@@ -33,9 +34,14 @@ vim.cmd([[
 
 imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
 inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
+inoremap <silent> <space><space> <cmd>lua require'luasnip'.jump(1)<Cr>
 
 snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
 snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+
+" For changing choices in choiceNodes (not strictly necessary for a basic setup).
+imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
 
 ]])
 
@@ -217,94 +223,14 @@ ls.add_snippets("all", {
     -- Parsing snippets: First parameter: Snippet-Trigger, Second: Snippet body.
     -- Placeholders are parsed into choices with 1. the placeholder text(as a snippet) and 2. an empty string.
     -- This means they are not SELECTed like in other editors/Snippet engines.
-    ls.parser.parse_snippet(
-        "lspsyn",
-        "Wow! This ${1:Stuff} really ${2:works. ${3:Well, a bit.}}"
-    ),
+    -- ls.parser.parse_snippet(
+    --     "lspsyn",
+    --     "Wow! This ${1:Stuff} really ${2:works. ${3:Well, a bit.}}"
+    -- ),
     
-    -- When wordTrig is set to false, snippets may also expand inside other words.
-    ls.parser.parse_snippet(
-        { trig = "te", wordTrig = false },
-        "${1:cond} ? ${2:true} : ${3:false}"
-    ),
-    
-    -- When regTrig is set, trig is treated like a pattern, this snippet will expand after any number.
-    ls.parser.parse_snippet({ trig = "%d", regTrig = true }, "A Number!!"),
-    -- Using the condition, it's possible to allow expansion only in specific cases.
-    s("cond", {
-        t("will only expand in c-style comments"),
-    }, {
-        condition = function(line_to_cursor, matched_trigger, captures)
-            -- optional whitespace followed by //
-            return line_to_cursor:match("%s*//")
-        end,
-    }),
-    -- there's some built-in conditions in "luasnip.extras.conditions.expand" and "luasnip.extras.conditions.show".
-    s("cond2", {
-        t("will only expand at the beginning of the line"),
-    }, {
-        condition = conds_expand.line_begin,
-    }),
-    s("cond3", {
-        t("will only expand at the end of the line"),
-    }, {
-        condition = conds_expand.line_end,
-    }),
-    -- The last entry of args passed to the user-function is the surrounding snippet.
-    s(
-        { trig = "a%d", regTrig = true },
-        f(function(_, snip)
-            return "Triggered with " .. snip.trigger .. "."
-        end, {})
-    ),
-    -- It's possible to use capture-groups inside regex-triggers.
-    s(
-        { trig = "b(%d)", regTrig = true },
-        f(function(_, snip)
-            return "Captured Text: " .. snip.captures[1] .. "."
-        end, {})
-    ),
-    s({ trig = "c(%d+)", regTrig = true }, {
-        t("will only expand for even numbers"),
-    }, {
-        condition = function(line_to_cursor, matched_trigger, captures)
-            return tonumber(captures[1]) % 2 == 0
-        end,
-    }),
-
     -- Use a function to execute any shell command and print its text.
     s("bash", f(bash, {}, { user_args = { "ls" } })),
-    -- Short version for applying String transformations using function nodes.
-    s("transform", {
-        i(1, "initial text"),
-        t({ "", "" }),
-        -- lambda nodes accept an l._1,2,3,4,5, which in turn accept any string transformations.
-        -- This list will be applied in order to the first node given in the second argument.
-        l(l._1:match("[^i]*$"):gsub("i", "o"):gsub(" ", "_"):upper(), 1),
-    }),
-    s("transform2", {
-        i(1, "initial text"),
-        t("::"),
-        i(2, "replacement for e"),
-        t({ "", "" }),
-        -- Lambdas can also apply transforms USING the text of other nodes:
-        l(l._1:gsub("e", l._2), { 1, 2 }),
-    }),
-    s({ trig = "trafo(%d+)", regTrig = true }, {
-        -- env-variables and captures can also be used:
-        l(l.CAPTURE1:gsub("1", l.TM_FILENAME), {}),
-    }),
-    -- The nonempty-node inserts text depending on whether the arg-node is
-    -- empty.
 
-    -- s("nempty", {
-    --     i(1, "sample_text"),
-    --     n(1, "i(1) is not empty!"),
-    -- }),
-
-    -- dynamic lambdas work exactly like regular lambdas, except that they
-    -- don't return a textNode, but a dynamicNode containing one insertNode.
-    -- This makes it easier to dynamically set preset-text for insertNodes. 
     s("dl1", {
         i(1, "sample_text"),
         t({ ":", "" }),
@@ -328,40 +254,12 @@ ls.add_snippets("tex", {
         key = "tex",
 })
 
--- set type to "autosnippets" for adding autotriggered snippets.
-ls.add_snippets("all", {
-    s("autotrigger", {
-        t("autosnippet"),
-    }),
-}, {
-    type = "autosnippets",
-    key = "all_auto",
-})
-
 -- in a lua file: search lua-, then c-, then all-snippets.
 ls.filetype_extend("lua", { "c" })
+ls.filetype_extend("rmd", { "r" })
 -- in a cpp file: search c-snippets, then all-snippets only (no cpp-snippets!!).
 ls.filetype_set("cpp", { "c" })
 
--- Beside defining your own snippets you can also load snippets from "vscode-like" packages
--- that expose snippets in json files, for example <https://github.com/rafamadriz/friendly-snippets>.
-
-require("luasnip.loaders.from_vscode").load({ include = { "python" } }) -- Load only python snippets
-
--- The directories will have to be structured like eg. <https://github.com/rafamadriz/friendly-snippets> (include
--- a similar `package.json`)
-require("luasnip.loaders.from_vscode").load({ paths = { "./my-snippets" } }) -- Load snippets from my-snippets folder
-
--- You can also use lazy loading so snippets are loaded on-demand, not all at once (may interfere with lazy-loading luasnip itself).
-require("luasnip.loaders.from_vscode").lazy_load() -- You can pass { paths = "./my-snippets/"} as well
-
-require("luasnip.loaders.from_snipmate").load({ include = { "c" } }) -- Load only snippets for c.
-
-require("luasnip.loaders.from_snipmate").lazy_load() -- Lazy loading
-
--- see DOC.md/LUA SNIPPETS LOADER for some details.
-require("luasnip.loaders.from_lua").load({ include = { "c" } })
-require("luasnip.loaders.from_lua").lazy_load({ include = { "all", "cpp" } })
 
 
 -- Adds a new command to reload snippets

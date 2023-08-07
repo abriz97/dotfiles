@@ -35,25 +35,11 @@ local parse = require("luasnip.util.parser").parse_snippet
 -- 4.  restoreNode   r
 -- 5.  snippetNode   sn
 
--- VS code like snippets
-require("luasnip.loaders.from_vscode").lazy_load()
+--VS code like snippets
+-- require("luasnip.loaders.from_vscode").lazy_load()
 
 -- new line + tab
 local nlt = t({"", "\t"})
-
--- Common long file paths
-allsnips = { s('DEEPANALYSES', t'/home/andrea/Documents/Box/ratmann_deepseq_analyses/live'),
-    s('DEEPANALYSES2', t'/home/andrea/HPC/project/ratmann_deepseq_analyses/live'),
-    s('XIAOYUE', t'/home/andrea/Documents/Box/ratmann_xiaoyue_jrssc2022_analyses/live'),
-    s('XIAOYUE2', t'/home/andrea/HPC/project/ratmann_xiaoyue_jrssc2022_analyses/live'),
-    s('DEEPDATA', t'/home/andrea/Documents/Box/ratmann_pangea_deepsequencedata'),
-    s('DEEPDATA2', t'/home/andrea/HPC/project/ratmann_pangea_deepsequencedata/live'),
-    s('SOFTWARE', t'/home/andrea/git/Phyloscanner.R.utilities/misc_data_analysis_RCCS1519/software'),
-    s('FLOWS', t'/home/andrea/git/phyloflows'),
-    s('SUBMISSION', t'/home/andrea/Documents/P1Brazil/submission/naturemed_v3'),
-    s('MARKING', t'/home/andrea/Documents/marking'),
-    s('EXTERNAL', t'/media/andrea/SSD/'),
-}
 
 luasnips = {
 
@@ -87,7 +73,7 @@ wikisnips = {
 
         {}
         ]], {
-            i(1, 'TITLE'), i(2, 'Text here...')
+            i(1, 'TITLE'), i(2, '(<>)')
         })
     ),
 
@@ -97,7 +83,7 @@ wikisnips = {
 
         {}
         ]], {
-            i(1, 'TITLE'), i(2, 'Text here...')
+            i(1, 'TITLE'), i(2, '(<>)')
         })
     ),
 
@@ -107,7 +93,7 @@ wikisnips = {
 
         {}
         ]], {
-            i(1, 'TITLE'), i(2, 'Text here...')
+            i(1, 'TITLE'), i(2, '(<>)')
         })
     ),
 }

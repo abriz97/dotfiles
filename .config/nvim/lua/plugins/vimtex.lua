@@ -12,4 +12,13 @@ vim.cmd( [[
     " Conceal latex syntax when code when cursor is not on the line
     set conceallevel=1
     let g:tex_conceal='abdmg'
+    let g:vimtex_compiler_latexmk = { 
+        \ 'executable' : 'latexmk',
+        \ 'options' : [ 
+        \   '-xelatex',
+        \   '-file-line-error',
+        \   '-synctex=1',
+        \   '-interaction=nonstopmode',
+        \ ],
+    \}
 ]] )

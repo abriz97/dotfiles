@@ -29,24 +29,19 @@ return {
         }),
 
 
-            -- Markdown: Headers
-            s({ trig = "^%s*h(%d)", regTrig = true }, {
-                f(function(_, snip)
-                    return string.rep("#", snip.captures[1])
-                end),
-            }),
+        -- Markdown: Headers
+        s({ trig = "^%s*h(%d)", regTrig = true }, {
+            f(function(_, snip)
+                return string.rep("#", snip.captures[1])
+            end),
+        }),
 
-        -- Markdown: Left arrow
+        -- Markdown: visual subs
         s("<-", t("←")),
-        -- Markdown: Right arrow
         s("->", t("→")),
-        -- Markdown: Left double arrow
         s("<=", t("⇐")),
-        -- Markdown: Right double arrow
         s("=>", t("⇒")),
-        -- Markdown: Less than or equal to
         s("<=", t("≤")),
-        -- Markdown: Greater than or equal to
         s(">=", t("≥")),
 
             

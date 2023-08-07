@@ -11,7 +11,7 @@ if vim.fn.isdirectory(sumneko_root) == 1 then
         print('Unsupported system for sumneko')
     end
 
-    lspconfig.sumneko_lua.setup({
+    lspconfig.lua_ls.setup({
         cmd = { sumneko_binary, '-E', sumneko_root .. '/main.lua' },
         root_dir = function(fname)
             return lspconfig.util.root_pattern('.git')(fname) or lspconfig.util.path.dirname(fname)

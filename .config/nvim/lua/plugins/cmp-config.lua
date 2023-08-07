@@ -68,7 +68,7 @@ cmp.setup({
     -- where to take suggestions from 
     sources = cmp.config.sources({
         { name = 'nvim_lua', max_item_count = 3, priority = 5},
-        { name = 'luasnip', keyword_length = 1, priority = 5 }, 
+        { name = 'luasnip', keyword_length = 1, priority = 2 }, 
         { name = 'cmp_nvim_r', max_item_count = 15, priority = 4},
         { name = 'nvim_lsp', max_item_count = 4, priority = 3,
             -- exclude 'Text' type entries
@@ -76,7 +76,11 @@ cmp.setup({
                 return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= 'Text'
             end
         },
-        { name = 'path', keyword_length =2 , priority = 2 },
+        { name = 'path', keyword_length =2 , priority = 2, 
+            option = {
+                trailing_slash = true
+            }
+        },
         { name = 'buffer', keyword_length = 4, priority = 1},
     }),
     -- specify appearence
@@ -203,7 +207,7 @@ if vim.fn.isdirectory(sumneko_root) == 1 then
         print('Unsupported system for sumneko')
     end
 
-    lspconfig.sumneko_lua.setup({
+    lspconfig.lua_ls.setup({
         cmd = { sumneko_binary, '-E', sumneko_root .. '/main.lua' },
         root_dir = function(fname)
             return lspconfig.util.root_pattern('.git')(fname) or lspconfig.util.path.dirname(fname)
@@ -234,9 +238,9 @@ if vim.fn.isdirectory(sumneko_root) == 1 then
  end
 
 -- R config
-lspconfig.r_language_server.setup({
-  on_attach = on_attach,
-  -- Debounce "textDocument/didChange" notifications because they are slowly
-  -- processed (seen when going through completion list with `<C-N>`)
-  flags = { debounce_text_changes = 150 },
-})
+-- lspconfig.r_language_server.setup({
+--   on_attach = on_attach,
+--   -- Debounce "textDocument/didChange" notifications because they are slowly
+--   -- processed (seen when going through completion list with `<C-N>`)
+--   flags = { debounce_text_changes = 150 },
+-- })

@@ -9,3 +9,11 @@ function _G.put(...)
   print(table.concat(objects, '\n'))
   return ...
 end
+
+
+function StanHelp(function_name)
+    local url = "https://mc-stan.org/docs/2_26/functions-reference/" .. function_name .. ".html"
+    vim.fn.jobstart({"xdg-open", url})
+end
+
+vim.cmd("command! -nargs=1 StanHelp call v:lua.StanHelp(<f-args>)")

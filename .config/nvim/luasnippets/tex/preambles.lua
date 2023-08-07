@@ -13,17 +13,51 @@ end
 
 return {
     -- LaTeX: Assignment preamble
+    
+    -- s( "template",
+    --     fmt(
+    --         [[
+    --         \documentclass[a4paper]{{article}}
+
+    --         \usepackage[utf8]{{inputenc}}
+    --         \usepackage[T1]{{fontenc}}
+    --         \usepackage{{textcomp}}
+    --         \usepackage{{amsmath, amssymb}}
+
+
+    --         \usepackage{{pdfpages}}
+    --         \usepackage{{transparent}}
+    --         \newcommand{{\incfig}}[1]{{%
+    --             \def\svgwidth{{\columnwidth}}
+    --             \import{{./figures/}}{{#1.pdf_tex}
+    --         }}
+
+    --         \pdfsuppresswarningpagegroup=1
+
+    --         \begin{{document}}
+    --             {}
+    --         \end{{document}}
+    --         ]],
+    --         {
+    --             i(1)
+    --         }
+    --     ),
+    --     { condition = in_text and begins_line }
+    -- ),
+    
     s(
         "setup",
         fmt(
             [[
             \documentclass{{article}}
-            \input{{../../Preamble}}
+
+            \usepackage{{fancyhdr}}
+            \usepackage{{amsmath}}
 
             \fancyhf{{}}
             \setlength{{\headheight}}{{24pt}}
             \lhead{{{} \\{}}}
-            \rhead{{Kyle Chui \\Page \thepage}}
+            \rhead{{Andrea Brizzi \\Page \thepage}}
             \pagestyle{{fancy}}
             \pagenumbering{{gobble}}
 
@@ -59,10 +93,9 @@ return {
         fmt(
             [[
             \documentclass[class=article, crop=false]{{standalone}}
-            \input{{../../Preamble}}
 
             \fancyhf{{}}
-            \lhead{{Kyle Chui}}
+            \lhead{{Andrea Brizzi}}
             \rhead{{Page \thepage}}
             \pagestyle{{fancy}}
 
@@ -76,5 +109,8 @@ return {
         ),
         { condition = in_text and begins_line }
     ),
-},
-    nil
+}, {
+        
+    -- usepackage
+    s("up", fmt("\\usepackage{{ {} }}",{ i(0) }), {condition = in_text and begins_line}),
+}

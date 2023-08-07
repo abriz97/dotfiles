@@ -4,7 +4,7 @@ if not ok then
     return
 end
 
-local openai_api_key = "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"
+-- local openai_api_key = "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"
 
 function OpenAI_Code_Completion()
   -- Call the OpenAI API to get code completion suggestions
@@ -72,10 +72,17 @@ require("chatgpt").setup( {
   },
   keymaps = {
     close = { "<C-c>", "<Esc>" },
+    submit = {"<C-Enter>", "<Enter>"},
     yank_last = "<C-y>",
+    yank_last_code = "<C-k>",
     scroll_up = "<C-u>",
     scroll_down = "<C-d>",
     toggle_settings = "<C-o>",
+    new_session = "<C-n>",
     cycle_windows = "<Tab>",
+    -- in the Sessions pane
+    select_session = "<Space>",
+    rename_session = "r",
+    delete_session = "d",
   },
 })
