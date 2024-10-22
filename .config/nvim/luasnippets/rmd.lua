@@ -131,6 +131,16 @@ return {
                 }
             ) , {condition = begins_line}),
 
+        s( "h4", 
+            fmt([[
+            #### {}
+
+            {}
+            ]], {
+                    i(1), i(2)
+                }
+            ) , {condition = begins_line}),
+
         -- in_r_code_chunk_start()
         s( "ii", t"include=FALSE", {condition = in_r_code_chunk_start}),
         s( "hh", t"hidden=TRUE", {condition = in_r_code_chunk_start}),

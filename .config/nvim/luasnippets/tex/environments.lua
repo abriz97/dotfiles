@@ -29,6 +29,28 @@ end
 
 return nil,
     {
+
+        s(
+            "ques",
+            fmt(
+            [[
+
+            \question {}
+
+            \begin{{answer}}
+                {}
+            \end{{answer}}
+
+            {}
+            ]], {
+                    i(1, '(<>)'),
+                    i(2, '(<>)'),
+                    i(3, '(<>)'),
+            }),  
+            { condition = begins_line }
+        ),
+
+
         s(
             "eq",
             fmt(

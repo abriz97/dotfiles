@@ -1,6 +1,5 @@
 require('packer').startup(function(use)
 
-
     -- Package manager
     use 'wbthomason/packer.nvim'
 
@@ -14,13 +13,34 @@ require('packer').startup(function(use)
     -- Native LSP
     use 'neovim/nvim-lspconfig'
     use 'hrsh7th/nvim-cmp'
-    use 'hrsh7th/cmp-nvim-lua'
-    use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
+    use 'hrsh7th/cmp-nvim-lua'
+    use 'hrsh7th/cmp-nvim-lsp'
     use 'jalvesaq/cmp-nvim-r'
     use 'onsails/lspkind.nvim'
+
+    use {
+        'VonHeikemen/lsp-zero.nvim',
+        requires = {
+            -- LSP Support
+            { 'neovim/nvim-lspconfig' },
+            { 'williamboman/mason.nvim' },
+            { 'williamboman/mason-lspconfig.nvim' },
+
+            -- autocompletions
+            { 'hrsh7th/nvim-cmp' },
+            { 'hrsh7th/cmp-buffer' },
+            { 'hrsh7th/cmp-path' },
+            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'hrsh7th/cmp-nvim-lua' },
+
+            -- snippets
+            { "rafamadriz/friendly-snippets" },
+
+        }
+    }
 
     -- Debugging
     use 'mfussenegger/nvim-dap'
@@ -37,26 +57,34 @@ require('packer').startup(function(use)
     use 'godlygeek/tabular'
 
     -- for luasnip users
-    use 'L3MON4D3/LuaSnip'
+    use { "L3MON4D3/LuaSnip", run = "make install_jsregexp" }
     use 'saadparwaiz1/cmp_luasnip'
     use "rafamadriz/friendly-snippets"
 
     -- Treesitter
-    use 'nvim-treesitter/nvim-treesitter'
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        run = ':TSUpdate'
+    }
     use 'nvim-treesitter/nvim-treesitter-context'
     use 'nvim-treesitter/playground'
+
     -- Treesitter doesn't highlight stan currently.
     use 'eigenfoo/stan-vim'
 
 
     -- For telescope:
-    use { "nvim-telescope/telescope.nvim", tag = '0.1.0' }
+    use { "nvim-telescope/telescope.nvim", tag = '0.1.4' }
     use { "nvim-telescope/telescope-fzf-native.nvim", run = 'make' }
     use "nvim-telescope/telescope-media-files.nvim"
     use "nvim-lua/plenary.nvim"
     use "nvim-lua/popup.nvim"
     use "BurntSushi/ripgrep"
     use "sharkdp/fd"
+
+    -- additional file navigation
+    use "theprimeagen/harpoon"
+    use "mbbill/undotree"
 
     use {
         'dhruvmanila/browser-bookmarks.nvim',
@@ -77,8 +105,12 @@ require('packer').startup(function(use)
     -- use 'folke/tokyonight.nvim'
     use 'bluz71/vim-nightfly-colors'
     use 'arcticicestudio/nord-vim'
-    use 'itchyny/lightline.vim'
+    -- use 'itchyny/lightline.vim'
+    use { 'feline-nvim/feline.nvim', branch = '0.5-compat' }
+
     use { "catppuccin/nvim", as = "catppucin" }
+    use 'sainnhe/gruvbox-material'
+    use 'polirritmico/monokai-nightasty.nvim'
 
 
     -- Git integration
@@ -143,6 +175,14 @@ require('packer').startup(function(use)
     }
 
     use 'github/copilot.vim'
+    use 'liuchengxu/graphviz.vim'
+
+    -- Focus
+    use 'folke/zen-mode.nvim'
+    use 'folke/twilight.nvim'
+
+
+
     -- HERE --
 
 end)

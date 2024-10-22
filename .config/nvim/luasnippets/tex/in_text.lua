@@ -148,5 +148,30 @@ return {
         s("iid", t"i.i.d."),
         s(";rv", t"random variable"),
         s("ii", t{"","\\item "}, {condition=in_itemize}),
+
+        -- chess snipptes:
+        s("chessfen", fmt(
+            [[
+            \newchessgame
+            \chessboard[setfen={}/{}/{}/{}/{}/{}/{}/{} {} {} {} 0 1]
+            {}
+            ]], {
+                i(1),
+                i(2),
+                i(3),
+                i(4),
+                i(5),
+                i(6),
+                i(7),
+                i(8),
+                c(9, {t"w", t"b"}),
+                c(10, {t"-", t"K", t"Q", t"k", t"q", i""}),
+                c(11, {t"-", i"" }),
+                i(12)
+            })
+        , { condition = begins_line }),
+
+
+
         --- End snippets
     }

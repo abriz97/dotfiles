@@ -119,7 +119,7 @@ return {
             i(6),
         })),
 
-    s({ trig = "SHINY"},
+    s({ trig = "SHINYAPP"},
         fmt(
         [[
         library(shiny) 
@@ -128,7 +128,7 @@ return {
             {}
         )
 
-        server <- function(input, output) {{
+        server <- function(input, output, session) {{
             {}
         }}
 
@@ -406,7 +406,7 @@ return {
 
     s({ trig='sin(', wordTrig = true } , t"stopifnot("),
 
-    s({trig = "tt", wordTrig = true}, t"traceback()", { condition = begins_line }),
+    -- s({trig = "tt", wordTrig = true}, t"traceback()", {condition = begins_line}),
 
     s({trig = "u(", wordTrig = true}, t"unique("),
 

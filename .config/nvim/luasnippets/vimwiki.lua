@@ -5,29 +5,31 @@
 
 local conds_expand = require("luasnip.extras.conditions.expand")
 
+local begin_line = conds_expand.line_begin
+
 
 return {
 
     },
 
     {
-        -- Headers
-        s({ trig = "^%s*(=-) ", regTrig = true }, 
-            fmt(
-                [[
-                {} {} {}
+        -- Headers: todo: transform this to =1, =2, ... 
+        -- s({ trig = "^%s*(=-) ", regTrig = true }, 
+        --     fmt(
+        --         [[
+        --         {} {} {}
 
-                {}
-                ]]
-                , {
-                    f(function(_, snip) return snip.captures[1] end),
-                    i(1),
-                    f(function(_, snip) return snip.captures[1] end),
-                    i(2),
-                }
-            ),
-            { condition = conds_expand.line_begin }
-        ),
+        --         {}
+        --         ]]
+        --         , {
+        --             f(function(_, snip) return snip.captures[1] end),
+        --             i(1),
+        --             f(function(_, snip) return snip.captures[1] end),
+        --             i(2),
+        --         }
+        --     ),
+        --     { condition = begin_line }
+        -- ),
 
 
         -- visual substitution
@@ -48,11 +50,60 @@ return {
 
 
         -- links
-        s({trig=";l", wordTrig=true}, fmt("[{}]({})", {i(1), i(2)}) ),
+        s({trig="ll", wordTrig=true}, fmt("[{}]({})", {i(1), i(2)}) ),
 
         -- math mode
         s({trig="mm", wordTrig=true}, fmt("${}$", {i(1)}) ),
        
+
+        -- Code chunks
+        s("CC", fmt(
+            [[
+            ```{{{}}}
+            {}
+            ```
+
+            {}
+            ]], {
+                i(2),
+                i(1),
+                i(3, "(<>)")
+            }), {
+                condition = begin_line
+            }),
+
+        -- code snippet of R
+        s("RR", fmt(
+            [[
+            ```{{R}}
+            {}
+            ```
+
+            {}
+            ]], {
+                i(1),
+                i(2, "(<>)")
+            }), {
+                condition = begin_line
+            }),
+
+        -- and for python...
+        s("PP", fmt(
+            [[
+            ```{{python}}
+            {}
+            ```
+
+            {}
+            ]], {
+                i(1),
+                i(2, "(<>)")
+            }), {
+                condition = begin_line
+            }),
+
             
+
+
         -- End Snippets --
     }

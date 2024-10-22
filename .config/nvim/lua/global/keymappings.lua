@@ -4,6 +4,8 @@ local function keymap(m, k, v, opts)
     vim.api.nvim_set_keymap(m,k,v,opts)
 end
 
+-- -- set clipboard+=unnamedplus
+
 -- Control key shortcurts
 -- Save in Normal, Visual and Insert mode
 keymap("n", "<C-s>", ":<c-u>update<cr>", opts)
@@ -29,8 +31,10 @@ keymap("i", 'jk', '<esc>', opts)
 keymap("i", 'kj', '<esc>', opts)
 
 -- Move selected piece of text in visual mode
-keymap("x", "K", ":move \'<-2<CR>gv-gv\'", opts)
-keymap("x", "J", ":move \'>+1<CR>gv-gv\'", opts)
+keymap("v", "J", ":move \'>+1<CR>gv=gv\'", opts)
+keymap("v", "K", ":move \'<-2<CR>gv=gv\'", opts)
+
+keymap("n", "J", "mzJ`z", opts)
 
 -- alternative way to save
 keymap("n", "<C-s>", ":w<CR>", opts)
@@ -44,6 +48,12 @@ keymap("t", "<C-w>h", "<C-\\><C-n><C-w>h", opts)
 keymap("t", "<C-w>j", "<C-\\><C-n><C-w>j", opts)
 keymap("t", "<C-w>k", "<C-\\><C-n><C-w>k", opts)
 keymap("t", "<C-w>l", "<C-\\><C-n><C-w>l", opts)
+
+
+-- copy to clipboard
+keymap("n", "<leader>y", "\"+y", opts)
+keymap("v", "<leader>y", "\"+y", opts)
+keymap("n", "<leader>Y", "\"+y", opts)
 
 
 -- " Quoting mechs
@@ -134,14 +144,17 @@ vim.cmd([[
 autocmd Filetype r inoremap <C-H> <Esc>F,a
 autocmd Filetype r inoremap <C-L> <Esc>f,a
 
-autocmd Filetype r map <F5> :!Rscript<space><c-r>%<enter>
 autocmd Filetype r,rmd nnoremap <leader>rscript :-1read $HOME/.vim/.skeleton.R<CR>
 autocmd FileType r inoremap <buffer> >> <Esc>:normal! a\|><CR>a<return>
 
-" Perform tests in R package
+" run scripts, perform packae tests and style file
+autocmd Filetype r map <F5> :!Rscript<space><c-r>%<enter>
 autocmd Filetype r map <F6> :!echo<space>"devtools::load_all(); devtools::test(stop_on_failure=TRUE)"\|<space>R<space>--vanilla<enter>
+autocmd Filetype r map \= :w<enter>:!echo<space>"styler::style_file(\"<c-r>%\")"\|<space>R<space>--vanilla<enter>
 
 autocmd Filetype r map <F9> :g!/^\[\[:blank:\]\]\*debug()\[\[:blank:\]\]\*$/d<CR>
+autocmd Filetype r map \sh :RSend<space>shiny::runApp()<enter>
+autocmd Filetype r map \tt :RSend<space>traceback()<enter>
 
 
 " Stan
@@ -164,7 +177,7 @@ autocmd Filetype stan inoremap ;u upper=
 autocmd Filetype stan map <F5> :!echo<space>"cmdstanr::cmdstan_model('<c-r>%')"\|<space>R<space>--vanilla<enter>
 
 " Format Stan file with stanc on key press and replace file contents
-nnoremap <F6> :silent %!stanc --print-canonical <c-r>% <CR>
+autocmd Filetype stan nnoremap <F6> :silent %!stanc --print-canonical <c-r>% <CR>
 
 
 " R Markdown
@@ -184,6 +197,11 @@ autocmd Filetype markdown inoremap <silent><c-b> ****<left><left>
 autocmd Filetype r xnoremap <leader>o y<Esc>:!gthumb<space><C-R>"<space>&<enter>
 autocmd Filetype r xnoremap <leader>p y<Esc>:!gthumb<space><C-R>"<space>&<enter>
 "
+
+autocmd Filetype python map <F5> :!python<space><c-r>%<enter>
+autocmd Filetype python map <F6> :!black<space><C-R>%<CR>
+
+autocmd Filetype dot map <F5> :Graphviz!<CR>
 
 " Macros 
 

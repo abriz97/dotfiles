@@ -1,0 +1,136 @@
+-- local ok, cmp = pcall(require, "cmp")
+-- if not ok then
+--     print("Failed to load cmp.lua")
+--     return
+-- end
+-- 
+-- -- useful links: https:
+-- -- //vonheikemen.github.io/devlog/tools/setup-nvim-lspconfig-plus-nvim-cmp/
+-- 
+-- vim.opt.completeopt= { 'menu' ,'menuone' , 'noselect' }
+-- 
+-- -- Set up nvim-cmp.
+-- local cmp = require'cmp'
+-- local luasnip = require'luasnip'
+-- local lspkind = require('lspkind')
+-- 
+-- local has_words_before = function()
+--   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+--   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+-- end
+-- 
+-- cmp.setup({
+--     snippet = {
+--         -- specify a luasnip snippet engine
+--         expand = function(args)
+--             luasnip.lsp_expand(args.body)
+--         end,
+--     },
+--     window = {
+--         -- completion = cmp.config.window.bordered(),
+--         documentation = cmp.config.window.bordered(),
+--     },
+--     mapping = cmp.mapping.preset.insert({
+--        
+-- 
+--         -- other standard
+--         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+--         ['<C-f>'] = cmp.mapping.scroll_docs(4),
+--         ['<C-Space>'] = cmp.mapping.complete(),
+--         ['<C-e>'] = cmp.mapping.abort(),
+--         ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+-- 
+--     }),
+-- 
+--     -- where to take suggestions from 
+--     sources = cmp.config.sources({
+--         { name = 'nvim_lua', max_item_count = 3, priority = 5},
+--         { name = 'luasnip', keyword_length = 1, priority = 2 }, 
+--         { name = 'cmp_nvim_r', max_item_count = 15, priority = 4},
+--         { name = 'nvim_lsp', max_item_count = 15, priority = 3,
+--             -- exclude 'Text' type entries
+--             entry_filter = function(entry, ctx)
+--                 return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= 'Text'
+--             end
+--         },
+--         { name = 'path', keyword_length =2 , priority = 2, 
+--             option = {
+--                 trailing_slash = true
+--             }
+--         },
+--         { name = 'buffer', keyword_length = 4, priority = 1},
+--     }),
+--     -- specify appearence
+--     formatting = {
+--         fields = { 'menu', 'abbr', 'kind' },
+--         format = lspkind.cmp_format({
+--             mode = 'symbol', -- show only symbol annotations
+--             maxwidth = 50,
+--             elllipsis_char = '...',
+-- 
+--             before = function(entry, item)
+--                 local menu_icon = {
+--                     nvim_lsp = 'λ',
+--                     cmp_nvim_r = 'R',
+--                     luasnip = '⋗',
+--                     buffer = 'Ω',
+--                     path = '',
+--                 }
+--                 item.menu = menu_icon[entry.source.name]
+--                 return item
+--             end,
+--         })
+--     },
+-- 
+--     experimental = {
+--         ghost_text = true,
+--     },
+-- 
+-- })
+-- 
+-- 
+-- 
+-- -- Set configuration for specific filetype.
+-- -- cmp.setup.filetype('gitcommit', {
+-- --     sources = cmp.config.sources({
+-- --         { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+-- --     }, {
+-- --         { name = 'buffer' },
+-- --     })
+-- -- })
+-- 
+-- -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+-- cmp.setup.cmdline({ '/', '?' }, {
+--     mapping = cmp.mapping.preset.cmdline(),
+--     sources = {
+--         { name = 'buffer' }
+--     }
+-- })
+-- 
+-- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+-- cmp.setup.cmdline(':', {
+--     mapping = cmp.mapping.preset.cmdline(),
+--     sources = cmp.config.sources({
+--         { name = 'path' }
+--     }, {
+--         { name = 'cmdline' }
+--     })
+-- })
+-- 
+-- 
+-- 
+-- -- signs
+-- local sign = function(opts)
+--   vim.fn.sign_define(opts.name, {
+--     texthl = opts.name,
+--     text = opts.text,
+--     numhl = ''
+--   })
+-- end
+-- sign({name = 'DiagnosticSignError', text = '✘'})
+-- sign({name = 'DiagnosticSignWarn', text = '▲'})
+-- sign({name = 'DiagnosticSignHint', text = '⚑'})
+-- sign({name = 'DiagnosticSignInfo', text = ''})
+-- 
+-- 
+-- --

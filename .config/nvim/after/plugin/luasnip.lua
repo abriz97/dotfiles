@@ -45,8 +45,11 @@ smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' 
 
 ]])
 
+-- C-K to expand?
+vim.keymap.set({"i"}, "<C-K>", function() ls.expand() end, {silent = true})
+
 -- jump to snippet creation
-vim.cmd([[command! LuaSnipEdit :lua require("luasnip.loaders.from_lua").edit_snippet_files()]])
+vim.cmd([[command! LuaSnipEdit :lua require("luasnip.loaders").edit_snippet_files()]])
 vim.keymap.set("n", "<Leader><CR>", "<cmd>LuaSnipEdit<CR>", { silent = true, noremap = true})
 vim.cmd( [[ autocmd BufEnter */luasnippets/*lua nnoremap <silent> <buffer> <CR> /-- End Snippets --<CR>O<BS><BS><Esc>O<BS><BS>]] )
 

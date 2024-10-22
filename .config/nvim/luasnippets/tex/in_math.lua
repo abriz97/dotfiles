@@ -99,6 +99,17 @@ return nil,
         --     end), 
         --     {condition = in_mathzone }),
 
+        s("pmat", fmt(
+            [[
+            \begin{{pmatrix}}
+            {}
+            \end{{pmatrix}}
+            {}
+            ]], {
+                i(1), i(2)
+            }),  
+            { condition = in_mathzone }),
+
 
         s({ trig = "^^", wordTrig = false }, {
             t("^{"),
@@ -116,7 +127,7 @@ return nil,
         s({ trig = "<=", wordTrig = false }, t("\\leq"), { condition = in_mathzone }),
         s({ trig = ">=", wordTrig = false }, t("\\geq"), { condition = in_mathzone }),
         s({ trig = "xx", wordTrig = false }, t("\\times "), { condition = in_mathzone }),
-        s({ trig = "ox", wordTrig = false }, t("\\otimes "), { condition = in_mathzone }),
+        s({ trig = "ox", wordTrig = true }, t("\\otimes "), { condition = in_mathzone }),
         s({ trig = "o+", wordTrig = false }, t("\\oplus "), { condition = in_mathzone }),
         s({ trig = "**", wordTrig = false }, t("\\cdot "), { condition = in_mathzone }),
 
@@ -278,6 +289,9 @@ return nil,
             t("}"),
         }, { condition = in_mathzone }),
 
+        -- underlining
+        s({ trig = "uu" }, { t("\\underline{"), i(1), t"}", i(0) }, { condition = in_mathzone }),
+
         -- indicator
         s({ trig = "II" }, t"\\mathbbm{1}" , { condition = in_mathzone }),
 
@@ -291,7 +305,7 @@ return nil,
         s({ trig = "rr" }, { t("\\right"), }, { condition = in_mathzone }),
         s({ trig = "lr(" }, { t("\\left( "), i(1), t" \\right", }, { condition = in_mathzone }),
         s({ trig = "lr[" }, { t("\\left[ "), i(1), t" \\right", }, { condition = in_mathzone }),
-        s({ trig = "lr{" }, { t("\\left\\{ "), i(1), t" \\right\\", }, { condition = in_mathzone }),
+        s({ trig = "lr{" }, { t("\\left\\{ "), i(1), t" \\right\\}", }, { condition = in_mathzone }),
 
         -- LaTeX: Auto-aligned equals
         -- s(

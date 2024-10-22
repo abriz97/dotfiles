@@ -14,6 +14,7 @@ return {
     s( "email-hm", t "andreabrizzi@live.it"), 
 
 
+
     -- Common long file paths
     -- s('DEEPANALYSES', t'/home/andrea/Documents/Box/ratmann_deepseq_analyses/live'),
     -- s('XIAOYUE', t'/home/andrea/Documents/Box/ratmann_xiaoyue_jrssc2022_analyses/live'),
@@ -38,6 +39,7 @@ return {
 
     -- common typos:
     s( "lenght", t"length"),
-    s( "widht", t"width")
+    s( "widht", t"width"),
+    s( "prob ", t"probability " ),
 
 }
