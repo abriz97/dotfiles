@@ -5,7 +5,7 @@ if not ok then
     return
 end
 
-local OPENAI_API_KEY = "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"
+-- local OPENAI_API_KEY = ""
 
 function OpenAI_Code_Completion()
     -- Call the OpenAI API to get code completion suggestions
